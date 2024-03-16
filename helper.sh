@@ -7,17 +7,17 @@ printUsage() {
 
 install() {
     local scriptName=$1
-    kpackagetool5 -i "$scriptName"
+    kpackagetool6 -i "$scriptName"
 }
 
 uninstall() {
     local scriptName=$1
-    kpackagetool5 -r "$scriptName"
+    kpackagetool6 -r "$scriptName"
 }
 
 upgrade() {
     local scriptName=$1
-    kpackagetool5 -u "$scriptName"
+    kpackagetool6 -u "$scriptName"
 }
 
 package() {
@@ -37,7 +37,7 @@ package() {
 }
 
 show-dev-console() {
-    qdbus org.kde.plasmashell /PlasmaShell showInteractiveKWinConsole
+    plasma-interactiveconsole --kwin
 }
 
 main() {
