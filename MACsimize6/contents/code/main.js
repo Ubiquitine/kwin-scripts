@@ -1,5 +1,5 @@
 function log(msg) {
-    //print("MACsimize6: " + msg);
+    print("MACsimize6: " + msg);
 }
 
 var handleFullscreen = readConfig("handleFullscreen", true);
@@ -44,6 +44,21 @@ function sanitizeDesktops(desktops) {
     return sanitizedDesktops
 }
 
+function cleanDesktop(desktop) {
+    log("Cleaning desktop: " + JSON.stringify(desktop));
+    for (var i in workspace.windowList()) {
+        var window = workspace.windowList()[i];
+        if (window.desktops.includes(desktop) && !window.skipTaskbar) {
+            log ("Window: " + window.resourceName + " is on the desktop");
+            window.desktops = window.desktops.filter(item => item.id !== desktop.id);
+            if (window.desktops.length < 1) {
+                window.desktops = [workspace.desktops[0]];
+            }
+            log("Window " + window.resourceName + ": " + JSON.stringify(window.desktops));
+        }
+    }
+}
+
 function restoreDesktop(window) {
     log("Restoring desktop for " + window.internalId);
     if (window.desktops[0].name == window.resourceName.toString()) {
@@ -57,6 +72,7 @@ function restoreDesktop(window) {
             delete savedDesktops[window.internalId.toString()]
             log(JSON.stringify(savedDesktops))
             window.desktops = desktops;
+            cleanDesktop(currentDesktop);
             workspace.removeDesktop(currentDesktop);
             workspace.currentDesktop = window.desktops[0];
             workspace.raiseWindow(window);
