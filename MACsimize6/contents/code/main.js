@@ -70,8 +70,8 @@ function restoreDesktop(window) {
         delete savedDesktops[windowId]
         window.desktops = desktops;
         cleanDesktop(currentDesktop);
-        workspace.removeDesktop(currentDesktop);
         workspace.currentDesktop = window.desktops[0];
+        workspace.removeDesktop(currentDesktop);
         workspace.raiseWindow(window);
         log("Saved desktops for window: " + windowId + ": " + JSON.stringify(savedDesktops[windowId]) + " after restore");
     } else {
@@ -101,8 +101,8 @@ function maximizedStateChanged(window, mode) {
 }
 
 function install() {
-    log("Installing handler for workspace window add");
-    workspace.windowAdded.connect(window => {
+    log("Installing handler for workspace windowActivated");
+    workspace.windowActivated.connect(window => {
         // Check if the window is normal
         let windowId = window.internalId.toString();
         if (window.normalWindow && window.fullScreenable && window.maximizable){
