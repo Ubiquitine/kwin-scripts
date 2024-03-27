@@ -30,8 +30,8 @@ package() {
 
     cd "$scriptName" || exit 1
 
-    local scriptVersion=$(grep -Po "Version=\K(.*)" metadata.desktop)
-    zip -r "$scriptName-$scriptVersion.kwinscript" contents metadata.desktop
+    local scriptVersion=$(jq -r .KPlugin.Version metadata.json)
+    zip -r "$scriptName-$scriptVersion.kwinscript" contents metadata.json
 
     cd ..
 }
