@@ -2,22 +2,22 @@
 
 printUsage() {
     echo "Usage: helper.sh install|uninstall|upgrade|package name-of-the-script"
-    echo "   or: helper.sh show-dev-console"
+    echo "   or: helper.sh console"
 }
 
 install() {
     local scriptName=$1
-    kpackagetool6 -i "$scriptName"
+    kpackagetool6 --type=KWin/Script -i "$scriptName"
 }
 
 uninstall() {
     local scriptName=$1
-    kpackagetool6 -r "$scriptName"
+    kpackagetool6 --type=KWin/Script -r "$scriptName"
 }
 
 upgrade() {
     local scriptName=$1
-    kpackagetool6 -u "$scriptName"
+    kpackagetool6 --type=KWin/Script -u "$scriptName"
 }
 
 package() {
@@ -36,7 +36,7 @@ package() {
     cd ..
 }
 
-show-dev-console() {
+console() {
     plasma-interactiveconsole --kwin
 }
 
@@ -52,7 +52,7 @@ main() {
             $command "$2"
             ;;
 
-        show-dev-console)
+        console)
             $command
             ;;
 
