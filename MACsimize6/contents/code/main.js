@@ -1,5 +1,5 @@
 function log(msg) {
-    print("MACsimize6: " + msg);
+    //print("MACsimize6: " + msg);
 }
 
 var handleFullscreen = readConfig("handleFullscreen", true);
@@ -8,27 +8,25 @@ var handleMaximized = readConfig("handleMaximized", true);
 const savedDesktops = {};
 
 function getNextDesktopNumber() {
-    log("Trying to find next desktop number " + workspace.currentDesktop);
+    log("Getting next desktop number " + workspace.currentDesktop);
     for (i = 0; i < workspace.desktops.length; i++) {
         desktop = workspace.desktops[i];
-        log(desktop, workspace.currentDesktop);
         if (desktop == workspace.currentDesktop) {
-            log("Found :" + desktop.name + " Number : " + i);
+            log("Found: " + desktop.name + " Number: " + i);
             return i + 1;
         }
     }
 }
 
 function moveToNewDesktop(window) {
-    log("Creating new desktop with name : " | window.resourceName.toString());
+    let windowName = window.resourceName.toString();
+    let windowId = window.internalId.toString();
+    log("Creating new desktop with name : " | windowName);
     let newDesktopNumber = getNextDesktopNumber();
-
-    workspace.createDesktop(newDesktopNumber, window.resourceName.toString());
-
+    workspace.createDesktop(newDesktopNumber, windowName);
     newDesktop = workspace.desktops[newDesktopNumber];
-
-    savedDesktops[window.internalId.toString()] = window.desktops;
-    log(JSON.stringify(savedDesktops))
+    savedDesktops[windowId] = window.desktops;
+    log("Saved desktops fot window " + windowId + ": " + JSON.stringify(savedDesktops[windowId]))
     ds = [newDesktop]
     window.desktops = ds
     workspace.currentDesktop = newDesktop;
@@ -37,7 +35,7 @@ function moveToNewDesktop(window) {
 function sanitizeDesktops(desktops) {
     log("Sanitizing desktops: " + JSON.stringify(desktops))
     let sanitizedDesktops = desktops.filter(value => Object.keys(value).length !== 0);
-    log("sanitizeDesktops: " + JSON.stringify(sanitizedDesktops))
+    log("sanitized Desktops: " + JSON.stringify(sanitizedDesktops))
     if (sanitizedDesktops.length < 1) {
         sanitizedDesktops = [workspace.desktops[0]];
     }
@@ -47,43 +45,44 @@ function sanitizeDesktops(desktops) {
 function cleanDesktop(desktop) {
     log("Cleaning desktop: " + JSON.stringify(desktop));
     for (var i in workspace.windowList()) {
-        var window = workspace.windowList()[i];
+        let window = workspace.windowList()[i];
         if (window.desktops.includes(desktop) && !window.skipTaskbar) {
-            log ("Window: " + window.resourceName + " is on the desktop");
+            let windowName = window.resourceName;
+            log ("Window: " + windowName + " is on the desktop");
             window.desktops = window.desktops.filter(item => item.id !== desktop.id);
             if (window.desktops.length < 1) {
                 window.desktops = [workspace.desktops[0]];
             }
-            log("Window " + window.resourceName + ": " + JSON.stringify(window.desktops));
+            log("Window " + windowName + ": " + JSON.stringify(window.desktops));
         }
     }
 }
 
 function restoreDesktop(window) {
-    log("Restoring desktop for " + window.internalId);
-    if (window.desktops[0].name == window.resourceName.toString()) {
-        log("here")
-        let currentDesktop = window.desktops[0];
-        log(currentDesktop);
-        if (window.internalId.toString() in savedDesktops ) {
-            log("Found saved desktops for: " + window.internalId.toString())
-            let desktops = sanitizeDesktops(savedDesktops[window.internalId.toString()])
-
-            delete savedDesktops[window.internalId.toString()]
-            log(JSON.stringify(savedDesktops))
-            window.desktops = desktops;
-            cleanDesktop(currentDesktop);
-            workspace.removeDesktop(currentDesktop);
-            workspace.currentDesktop = window.desktops[0];
-            workspace.raiseWindow(window);
-        }
-
+    let windowId = window.internalId.toString();
+    log("Restoring desktops for " + windowId);
+    let currentDesktop = window.desktops[0];
+    log(currentDesktop);
+    if (windowId in savedDesktops ) {
+        log("Found saved desktops for: " + windowId)
+        let desktops = sanitizeDesktops(savedDesktops[windowId])
+        log("Saved desktops for window: " + windowId + ": " + JSON.stringify(savedDesktops[windowId]) + " before restore");
+        delete savedDesktops[windowId]
+        window.desktops = desktops;
+        cleanDesktop(currentDesktop);
+        workspace.removeDesktop(currentDesktop);
+        workspace.currentDesktop = window.desktops[0];
+        workspace.raiseWindow(window);
+        log("Saved desktops for window: " + windowId + ": " + JSON.stringify(savedDesktops[windowId]) + " after restore");
+    } else {
+        log(windowId + " has no saved desktops. Not restoring")
     }
+
 }
 
 function fullScreenChanged(window) {
-    log("Window : " + window.internalId.toString() + " fullscreen : " + window.fullScreen);
-
+    let windowId = window.internalId.toString();
+    log("Window : " + windowId + " fullscreen : " + window.fullScreen);
     if (window.fullScreen) {
         moveToNewDesktop(window);
     } else {
@@ -92,7 +91,8 @@ function fullScreenChanged(window) {
 }
 
 function maximizedStateChanged(window, mode) {
-    log("Window : " + window.internalId.toString() + " maximized mode : " + mode);
+    let windowId = window.internalId.toString();
+    log("Window : " + windowId + " maximized mode : " + mode);
     if (mode == 3) {
         moveToNewDesktop(window);
     } else {
@@ -104,22 +104,23 @@ function install() {
     log("Installing handler for workspace window add");
     workspace.windowAdded.connect(window => {
         // Check if the window is normal
+        let windowId = window.internalId.toString();
         if (window.normalWindow && window.fullScreenable && window.maximizable){
-            log("Installing fullscreen and close handles for" + window.internalId.toString());
+            log("Installing handles for " + windowId);
             if (handleMaximized) {
                 window.maximizedAboutToChange.connect(function (mode) {
-                    log(window.internalId.toString() + "maximized changed");
+                    log(windowId + ": maximized changed");
                     maximizedStateChanged(window, mode);
                 });
             }
             if (handleFullscreen) {
                 window.fullScreenChanged.connect(function () {
-                    log(window.internalId.toString() + "fullscreen changed");
+                    log(windowId + ": fullscreen changed");
                     fullScreenChanged(window);
                 });
             }
             window.closed.connect(function () {
-                log(window.internalId.toString() + " closed");
+                log(windowId + ": closed");
                 restoreDesktop(window);
             });
         }
