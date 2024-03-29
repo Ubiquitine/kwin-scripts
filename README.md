@@ -4,19 +4,6 @@ This is a repository with some KWin scripts.
 
 The scripts are intended to be used under KDE Plasma.
 
-## Table of Contents
-
-- [Installation](#installation)
-  - [From source](#from-source)
-  - [kwinscript file](#kwinscript-file)
-- [Available scripts](#available-scripts)
-  - [Simple Window Groups](#simple-window-groups)
-  - [Task Manager - Do It Yourself Bar](#task-manager---do-it-yourself-bar)
-  - [Temporary Virtual Desktops](#temporary-virtual-desktops)
-  - [Virtual Desktops Only On Primary](#virtual-desktops-only-on-primary)
-- [Experimental](#experimental)
-- [License](#license)
-
 ## Installation
 
 ### From source
@@ -42,13 +29,34 @@ After installing the script, it must be also enabled in the System Settings.
 
 ### kwinscript file
 
-Visit the [releases section](https://github.com/wsdfhjxc/kwin-scripts/releases) and download the kwinscript file of a chosen script.
+Visit the [KDE Store](https://store.kde.org/browse?cat=720&ord=latest) and download the kwinscript file of a chosen script.
 
 After that, you will be able to select this file in System Settings (KWin Scripts, Install from File).
 
+Or just use System Settings (KWin Scripts, Get New...)
+
 ## Available scripts
 
-### Simple Window Groups
+### MACsimize6
+
+A re-implemetation of the original MACsimize script for Plasma 6.
+
+Immitates the way OS X handles maximized and full-screend windows.
+
+When enabled, the scrip will move full-screened and/or (fully) maximized windows to a new virtual desktop, named after the application.
+When window is restored to the regular state - not full-screened and not fully maximized - the scriptwill restore (if possible) the desktops assignmentof the window.
+
+### Temporary Virtual Desktops
+
+This is a script that automatically adds and removes virtual desktops.
+
+When the script is enabled, once a virtual desktop becomes empty (due to closing windows), it'll be removed, unless it's the only virtual desktop left. That's a feature known from the GNOME Shell, and while it works best with its unmatched overview mode, that feature can be also useful when using KDE Plasma. 
+
+Besides enabling the script in the System Settings, no additional steps are required.
+
+You can configure some additional behavior in script's configuration, e.g. always keeping a spare (empty) virtual desktop.
+
+### Simple Window Groups (DEPRECATED)
 
 This is a script that provides a window grouping system, similar as in some window managers.
 
@@ -99,7 +107,7 @@ In order to restore the windows, open KRunner (Alt+Space), launch Konsole and ru
 kwin_x11 --replace & disown
 ```
 
-### Task Manager - Do It Yourself Bar
+### Task Manager - Do It Yourself Bar (DEPRECATED)
 
 This is a script to create a text-only task manager with the use of the [Do It Yourself Bar](https://github.com/wsdfhjxc/do-it-yourself-bar) plasmoid.
 
@@ -144,15 +152,7 @@ Here are some configuration hints:
 * Titles of active windows use visual style B
 * Titles of windows needing attention use style C
 
-### Temporary Virtual Desktops
-
-This is a script that automatically adds and removes virtual desktops.
-
-When the script is enabled, virtual desktops will be added and removed in a way, so that there is always exactly one empty virtual desktop available (until hitting the limit of 20). Once a virtual desktop becomes empty (due to closing windows), it'll be removed, unless it's the only virtual desktop left. That's a feature known from the GNOME Shell, and while it works best with its unmatched overview mode, that feature can be also useful when using KDE Plasma.
-
-Besides enabling the script in the System Settings, no additional steps are required.
-
-### Virtual Desktops Only On Primary
+### Virtual Desktops Only On Primary (DEPRECATED)
 
 This is a script that brings a feature similar to GNOME Mutter's `workspaces-only-on-primary` option, that is switchable virtual desktops on the primary monitor, and non-switchable virtual desktops on other monitors.
 
