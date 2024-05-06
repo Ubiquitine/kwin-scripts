@@ -4,9 +4,9 @@ function log(msg) {
 
 
 function bind(window) {
-   // window.previousOutput = window.output;
+    //window.previousOutput = window.output;
     window.outputChanged.connect(window, update);
-    window.desktopsChanged.connect(window, update);
+    //window.desktopsChanged.connect(window, update);
     log("Window " + window.internalId + " has been bound");
 }
 
