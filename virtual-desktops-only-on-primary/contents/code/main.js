@@ -36,10 +36,15 @@ function bindUpdate(window) {
     update(window);
 }
 
+function updateAll() {
+    workspace.windowList().forEach(update);
+}
+
 function main() {
     workspace.windowList().forEach(bind);
-    workspace.windowList().forEach(update);
+    updateAll();
     workspace.windowAdded.connect(bindUpdate);
+    workspace.screensChanged.connect(updateAll)
 }
 
 main();
