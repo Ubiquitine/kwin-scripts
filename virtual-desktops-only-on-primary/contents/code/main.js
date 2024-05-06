@@ -4,7 +4,7 @@ function log(msg) {
 
 
 function bind(window) {
-    window.previousOutput = window.output;
+   // window.previousOutput = window.output;
     window.outputChanged.connect(window, update);
     window.desktopsChanged.connect(window, update);
     log("Window " + window.internalId + " has been bound");
@@ -19,13 +19,13 @@ function update(window) {
 
     const primaryScreen = workspace.screens[0];
     var currentScreen = window.output;
-    var previousScreen = window.previousOutput;
-    window.previousOutput = currentScreen;
+    //var previousScreen = window.previousOutput;
+    //window.previousOutput = currentScreen;
 
     if (currentScreen != primaryScreen) {
         window.onAllDesktops = true;
         log("Window " + window.internalId + " has been pinned");
-    } else if (previousScreen != primaryScreen){
+    } else {
         window.desktops = [workspace.currentDesktop];
         log("Window " + window.internalId + " has been unpinned");
     }
