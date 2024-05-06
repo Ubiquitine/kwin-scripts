@@ -1,5 +1,5 @@
 function log(msg) {
-     //print("VDOnPrimary: " + msg);
+     print("VDOnPrimary: " + msg);
 }
 
 
@@ -25,7 +25,7 @@ function update(window) {
     if (currentScreen != primaryScreen) {
         window.onAllDesktops = true;
         log("Window " + window.internalId + " has been pinned");
-    } else {
+    } else if ( window.onAllDesktops ) {
         window.desktops = [workspace.currentDesktop];
         log("Window " + window.internalId + " has been unpinned");
     }
