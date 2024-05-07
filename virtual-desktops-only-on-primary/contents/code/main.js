@@ -1,12 +1,12 @@
 function log(msg) {
-     print("VDOnPrimary: " + msg);
+     //print("VDOnPrimary: " + msg);
 }
 
+var primaryOutputNumber = readConfig("primaryOutput", 0);
+const primaryScreen = workspace.screens[primaryOutputNumber];
 
 function bind(window) {
-    //window.previousOutput = window.output;
     window.outputChanged.connect(window, update);
-    //window.desktopsChanged.connect(window, update);
     log("Window " + window.internalId + " has been bound");
 }
 
@@ -17,10 +17,7 @@ function update(window) {
         return;
     }
 
-    const primaryScreen = workspace.screens[0];
     var currentScreen = window.output;
-    //var previousScreen = window.previousOutput;
-    //window.previousOutput = currentScreen;
 
     if (currentScreen != primaryScreen) {
         window.onAllDesktops = true;
