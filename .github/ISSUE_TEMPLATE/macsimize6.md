@@ -1,7 +1,7 @@
 ---
-name: Simple Window Groups
+name: MACsimize6
 about: Create an issue related to this particular script
-title: ''
-labels: Simple Window Groups
+title: '[MACsimize6]: '
+labels: MACsimize6
 assignees: ''
 ---
