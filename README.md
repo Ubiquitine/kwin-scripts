@@ -56,11 +56,13 @@ Besides enabling the script in the System Settings, no additional steps are requ
 
 You can configure some additional behavior in script's configuration, e.g. always keeping a spare (empty) virtual desktop.
 
-### Virtual Desktops Only On Primary
+### Virtual Desktops Only On Primary (DEPRECATED)
 
-This script pins every window that is not on the primary display(output) to be on all desktops.
+This is a script that brings a feature similar to GNOME Mutter's `workspaces-only-on-primary` option, that is switchable virtual desktops on the primary monitor, and non-switchable virtual desktops on other monitors.
 
-This allows, e.g. for laptops to play video or present PPT on the external display, while still being able to switch virtual desktops on the built-in display without disruption of whatever is shown on external display.
+When the script is enabled, all windows placed on monitors other than the primary, are automatically set to be shown on all virtual desktops. This can be considered a hack, but from the user's perspective, this effectively results in having multiple switchable virtual desktops on the primary monitor, and fixed non-switchable virtual desktops on other monitors. That's how GNOME Shell handles workspaces by default, and the script mimics that.
+
+Besides enabling the script in the System Settings, no additional steps are required.
 
 ### Simple Window Groups (DEPRECATED)
 
@@ -157,14 +159,6 @@ Here are some configuration hints:
 * Titles of idle windows use visual style A
 * Titles of active windows use visual style B
 * Titles of windows needing attention use style C
-
-### Virtual Desktops Only On Primary (DEPRECATED)
-
-This is a script that brings a feature similar to GNOME Mutter's `workspaces-only-on-primary` option, that is switchable virtual desktops on the primary monitor, and non-switchable virtual desktops on other monitors.
-
-When the script is enabled, all windows placed on monitors other than the primary, are automatically set to be shown on all virtual desktops. This can be considered a hack, but from the user's perspective, this effectively results in having multiple switchable virtual desktops on the primary monitor, and fixed non-switchable virtual desktops on other monitors. That's how GNOME Shell handles workspaces by default, and the script mimics that.
-
-Besides enabling the script in the System Settings, no additional steps are required.
 
 ## Experimental
 
