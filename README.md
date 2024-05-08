@@ -56,6 +56,12 @@ Besides enabling the script in the System Settings, no additional steps are requ
 
 You can configure some additional behavior in script's configuration, e.g. always keeping a spare (empty) virtual desktop.
 
+### Virtual Desktops Only On Primary
+
+This script pins every window that is not on the primary display(output) to be on all desktops.
+
+This allows, e.g. for laptops to play video or present PPT on the external display, while still being able to switch virtual desktops on the built-in display without disruption of whatever is shown on external display.
+
 ### Simple Window Groups (DEPRECATED)
 
 This is a script that provides a window grouping system, similar as in some window managers.
