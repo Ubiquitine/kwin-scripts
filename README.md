@@ -56,7 +56,7 @@ Besides enabling the script in the System Settings, no additional steps are requ
 
 You can configure some additional behavior in script's configuration, e.g. always keeping a spare (empty) virtual desktop.
 
-### Virtual Desktops Only On Primary (DEPRECATED)
+### Virtual Desktops Only On Primary
 
 This is a script that brings a feature similar to GNOME Mutter's `workspaces-only-on-primary` option, that is switchable virtual desktops on the primary monitor, and non-switchable virtual desktops on other monitors.
 
