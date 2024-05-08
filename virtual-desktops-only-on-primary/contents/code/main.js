@@ -2,8 +2,8 @@ function log(msg) {
      //print("VDOnPrimary: " + msg);
 }
 
-var primaryOutputNumber = readConfig("primaryOutput", 0);
-const primaryScreen = workspace.screens[primaryOutputNumber];
+var primaryOutputIndex = readConfig("primaryOutputIndex", 0);
+const primaryScreen = workspace.screens[primaryOutputIndex];
 
 function bind(window) {
     window.outputChanged.connect(window, update);

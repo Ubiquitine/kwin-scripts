@@ -17,14 +17,14 @@
    <item row="0" column="0">
     <widget class="QLabel">
      <property name="text">
-      <string>Primary monitor number</string>
+      <string>Primary display index #</string>
      </property>
     </widget>
    </item>
    <item row="0" column="1">
-    <widget class="QSpinBox" name="kcfg_primaryOutput">
+    <widget class="QSpinBox" name="kcfg_primaryOutputIndex">
      <property name="cleanText">
-      <string notr="true">Number of the primary monitor</string>
+      <string notr="true">Index number of the primary display</string>
      </property>
     </widget>
    </item>
