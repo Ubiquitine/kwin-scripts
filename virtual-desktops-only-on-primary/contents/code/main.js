@@ -1,4 +1,4 @@
-function log(msg) {
+functaion log(msg) {
      //print("VDOnPrimary: " + msg);
 }
 
@@ -45,6 +45,9 @@ function updateAll() {
     if (!primaryOutputPresent) {
         log("Primary display is missing. Not updating.")
         return;
+    }
+    if (workspace.screens.length < 2) {
+        log("There is only one display. Mot updating")
     }
     workspace.windowList().forEach(update);
 }
