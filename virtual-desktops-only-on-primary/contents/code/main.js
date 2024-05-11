@@ -23,7 +23,8 @@ function update(window) {
         window.onAllDesktops = true;
         log("Window " + window.internalId + " has been pinned");
     } else if ( window.onAllDesktops ) {
-        window.desktops = [workspace.currentDesktop];
+        //window.desktops = [workspace.currentDesktop];
+        window.onAllDesktops = false;
         log("Window " + window.internalId + " has been unpinned");
     }
 }
