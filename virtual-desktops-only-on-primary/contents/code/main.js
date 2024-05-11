@@ -5,6 +5,13 @@ function log(msg) {
 var primaryOutputIndex = readConfig("primaryOutputIndex", 0);
 const primaryScreen = workspace.screens[primaryOutputIndex];
 
+function primaryOutputPresent() {
+    if (workspace.screens.includes(primaryScreen)) {
+        return true;
+    }
+    return false;
+}
+
 function bind(window) {
     window.outputChanged.connect(window, update);
     log("Window " + window.internalId + " has been bound");
@@ -35,6 +42,10 @@ function bindUpdate(window) {
 }
 
 function updateAll() {
+    if (!primaryOutputPresent) {
+        log("Primary display is missing. Not updating.")
+        return;
+    }
     workspace.windowList().forEach(update);
 }
 
