@@ -1,5 +1,5 @@
 function log(msg) {
-     //print("VDOnPrimary: " + msg);
+     print("VDOnPrimary: " + msg);
 }
 
 var primaryOutputIndex = readConfig("primaryOutputIndex", 0);
@@ -13,14 +13,17 @@ function primaryOutputPresent() {
 }
 
 function bind(window) {
+    if (window.specialWindow || (window.normalWindow && window.skipTaskbar) || !window.normalWindow || !window.moveableAcrossScreens) {
+        return;
+    }
     window.outputChanged.connect(window, update);
-    log("Window " + window.internalId + " has been bound");
+    log("Window " + window.resourceName + ":"  + window.internalId + " has been bound");
 }
 
 function update(window) {
     var window = window || this;
     
-    if (window.specialWindow || (!window.normalWindow && window.skipTaskbar)) {
+    if (window.specialWindow || (window.normalWindow && window.skipTaskbar) || !window.normalWindow || !window.moveableAcrossScreens) {
         return;
     }
 
@@ -28,11 +31,11 @@ function update(window) {
 
     if (currentScreen != primaryScreen) {
         window.onAllDesktops = true;
-        log("Window " + window.internalId + " has been pinned");
+        log("Window " + window.resourceName + ":" + window.internalId + " has been pinned");
     } else if ( window.onAllDesktops ) {
         //window.desktops = [workspace.currentDesktop];
         window.onAllDesktops = false;
-        log("Window " + window.internalId + " has been unpinned");
+        log("Window " + window.resourceName + ":"  + window.internalId + " has been unpinned");
     }
 }
 
@@ -47,7 +50,7 @@ function updateAll() {
         return;
     }
     if (workspace.screens.length < 2) {
-        log("There is only one display. Mot updating")
+        log("There is only one display. Not updating")
     }
     workspace.windowList().forEach(update);
 }
