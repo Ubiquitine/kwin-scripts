@@ -1,4 +1,4 @@
-functaion log(msg) {
+function log(msg) {
      //print("VDOnPrimary: " + msg);
 }
 
