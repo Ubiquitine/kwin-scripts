@@ -1,32 +1,29 @@
 function log(msg) {
-     print("VDOnPrimary: " + msg);
+     //print("VDOnPrimary: " + msg);
 }
-
+var busy = false;
 var primaryOutputIndex = readConfig("primaryOutputIndex", 0);
-const primaryScreen = workspace.screens[primaryOutputIndex];
 
-function primaryOutputPresent() {
-    if (workspace.screens.includes(primaryScreen)) {
-        return true;
-    }
-    return false;
-}
-
-function bind(window) {
+function bindWindow(window) {
     if (window.specialWindow || (window.normalWindow && window.skipTaskbar) || !window.normalWindow || !window.moveableAcrossScreens) {
         return;
     }
-    window.outputChanged.connect(window, update);
+    window.outputChanged.connect(window, updateWindow);
     log("Window " + window.resourceName + ":"  + window.internalId + " has been bound");
 }
 
-function update(window) {
+function updateWindow(window) {
     var window = window || this;
     
     if (window.specialWindow || (window.normalWindow && window.skipTaskbar) || !window.normalWindow || !window.moveableAcrossScreens) {
         return;
     }
 
+    var primaryScreen = workspace.screens[primaryOutputIndex];
+    if(primaryScreen == null) {
+        log("No defined primary screen is present. Not updating");
+        return;
+    }
     var currentScreen = window.output;
 
     if (currentScreen != primaryScreen) {
@@ -40,26 +37,42 @@ function update(window) {
 }
 
 function bindUpdate(window) {
-    bind(window);
-    update(window);
+    bindWindow(window);
+    updateWindow(window);
 }
 
 function updateAll() {
-    if (!primaryOutputPresent) {
-        log("Primary display is missing. Not updating.")
+    if (busy) {
+        return;
+    }
+    busy = true;
+    var primaryScreen = workspace.screens[primaryOutputIndex];
+    if(primaryScreen == null) {
+        log("Primary display is missing. Not updating.");
         return;
     }
     if (workspace.screens.length < 2) {
-        log("There is only one display. Not updating")
+        log("There is only one display. Not updating");
+        return;
     }
-    workspace.windowList().forEach(update);
+    workspace.windowList().forEach(updateWindow);
+    busy = false;
+}
+
+function update() {
+    var timer = new QTimer();
+    timer.interval = 100;
+    timer.singleShot = true;
+    timer.timeout.connect(updateAll);
+    timer.start();
 }
 
 function main() {
-    workspace.windowList().forEach(bind);
-    updateAll();
+    log("Starting")
+    workspace.windowList().forEach(bindWindow);
+    update();
     workspace.windowAdded.connect(bindUpdate);
-    workspace.screensChanged.connect(updateAll)
+    workspace.screensChanged.connect(update)
 }
 
 main();
