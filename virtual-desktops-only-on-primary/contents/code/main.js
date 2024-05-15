@@ -3,6 +3,7 @@ function log(msg) {
 }
 var busy = false;
 var primaryOutputIndex = readConfig("primaryOutputIndex", 0);
+var numberOfScreens = readConfig("numberOfScreens", 2);
 
 function bindWindow(window) {
     if (window.specialWindow || (window.normalWindow && window.skipTaskbar) || !window.normalWindow || !window.moveableAcrossScreens) {
@@ -51,8 +52,8 @@ function updateAll() {
         log("Primary display is missing. Not updating.");
         return;
     }
-    if (workspace.screens.length < 2) {
-        log("There is only one display. Not updating");
+    if (workspace.screens.length < numberOfScreens) {
+        log("Not all isplays are present. Not updating");
         return;
     }
     workspace.windowList().forEach(updateWindow);

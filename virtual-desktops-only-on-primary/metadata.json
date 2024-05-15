@@ -13,7 +13,7 @@
             }
         ],
         "Id": "virtual-desktops-only-on-primary",
-        "Version": "0.4.4",
+        "Version": "0.4.5",
         "License": "GPLv3",
         "EnabledByDefault": false
     },
