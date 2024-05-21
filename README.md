@@ -1,5 +1,7 @@
 # KWin scripts
 
+## ARCHIVED. All scripts have been moved to their own repositories for better developoment and organization.
+
 This is a repository with some KWin scripts.
 
 The scripts are intended to be used under KDE Plasma.
